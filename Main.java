@@ -3,19 +3,16 @@ import java.io.*;
 
 public class Main {
 
-    static int divide(int a, int b) {
-        if(b == 0) throw new ArithmeticException("divide by zero");
-        return a / b;
+    static Optional<Integer> safeParse(String s) {
+        try {
+            int n = Integer.parseInt(s);
+            return Optional.of(n);
+        } catch (NumberFormatException e) {}
+        return Optional.empty();
     }
 
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        try {
-            System.out.println("result: " + divide(a, b));
-        } catch (ArithmeticException e) {
-            System.out.println("error: " + e.getMessage());
-        }
+        String line = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        System.out.println(safeParse(line).map(n -> n * 2).orElse(-1));
     }
 }
