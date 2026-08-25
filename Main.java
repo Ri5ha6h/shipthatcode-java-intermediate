@@ -1,20 +1,17 @@
+import java.util.*;
+import java.io.*;
+
 public class Main {
-     static class Pair<A, B> {
-         private A first;
-         private B second;
-
-         Pair(A first, B second) {
-             this.first = first;
-             this.second = second;
-         }
-
-         public String toString() {
-             return "(" + first + ", " + second + ")";
-         }
-     }
-
-    public static void main(String[] args) {
-        Pair<String, Integer> p = new Pair<>("Ada", 36);
-        System.out.println(p.toString());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] line = br.readLine().trim().split(" ");
+        Map<String, Integer> map = new HashMap<>();
+        for(String s : line){
+            map.merge(s, 1, Integer::sum);
+        }
+        Map<String, Integer> map2 = new TreeMap<>(map);
+        for(Map.Entry<String, Integer> entry : map2.entrySet()){
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }
