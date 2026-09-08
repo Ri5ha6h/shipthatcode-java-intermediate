@@ -2,17 +2,25 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.io.*;
 import java.time.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        LocalDate a = LocalDate.parse(br.readLine());
-        LocalDate b = LocalDate.parse(br.readLine());
-
-        // ChronoUnit.DAYS.between(...) gives a SIGNED count of days.
-        // Nothing promises which date comes first, so print the magnitude.
-        long gap = Math.abs(ChronoUnit.DAYS.between(a,b));
-        System.out.println(gap);
+    public static void main(String[] args) throws InterruptedException {
+        AtomicInteger counter = new AtomicInteger(0);
+        Thread[] threads = new Thread[4];
+        for (int i = 0; i < 4; i++) {
+            threads[i] = new Thread(() -> {
+                // Increment counter 250 times.
+                // Declare a NEW loop variable here: i is already in scope,
+                // and a lambda may neither reuse its name nor modify it.
+                for (int j = 0; j < 250; j++) {
+                    counter.incrementAndGet();
+                }
+            });
+            threads[i].start();
+        }
+        for (Thread t : threads) t.join();
+        System.out.println(counter.get());
     }
 }
