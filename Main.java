@@ -3,16 +3,14 @@ import java.io.*;
 
 public class Main {
 
-    static Optional<Integer> safeParse(String s) {
-        try {
-            int n = Integer.parseInt(s);
-            return Optional.of(n);
-        } catch (NumberFormatException e) {}
-        return Optional.empty();
-    }
-
     public static void main(String[] args) throws IOException {
-        String line = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        System.out.println(safeParse(line).map(n -> n * 2).orElse(-1));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        List<String> words = new ArrayList<>();
+        for (int i = 0; i < n; i++) words.add(br.readLine());
+        // sort by length using a method reference
+        // print each on its own line
+        words.sort(Comparator.comparing(String::length));
+        words.forEach(System.out::println);
     }
 }
